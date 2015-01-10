@@ -224,21 +224,15 @@ var injectScriptIfComplete = function (tab) {
                     console.log('-- loaded for the first time, injecting the scripts');
 
                     // inject all scripts and jQuery, use slice to avoid mutating
-                    console.log('a');
                     var scripts = connector.js.slice(0);
-                    console.log('b');
                     scripts.unshift(JQUERY_PATH);
-                    console.log('c');
 
                     scripts.forEach(function (jsFile) {
-                        console.log('d');
-                        console.log(jsFile);
                         var injectDetails = {
                             file: jsFile,
                             allFrames: connector.allFrames ? connector.allFrames : false
                         };
                         chrome.tabs.executeScript(tabId, injectDetails);
-                        console.log('dd');
                     });
                 }
                 else {
