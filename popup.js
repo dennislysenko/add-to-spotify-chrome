@@ -28,26 +28,38 @@ document.addEventListener('DOMContentLoaded', function () {
 /**
  * Stuff to do with the add button being clicked
  */
+var hideLoadingTimeout = null;
 function showLoading(message) {
-    $('#loading_message').slideDown().text(message);
+    if (hideLoadingTimeout) clearTimeout(hideLoadingTimeout);
+    $('#loading_message').show().text(message);
 }
 function hideLoading() {
-    $('#loading_message').slideUp();
+    if (hideLoadingTimeout) clearTimeout(hideLoadingTimeout);
+    $('#loading_message').hide();
+}
+function showMessage(message) {
+    showLoading(message);
+    hideLoadingTimeout = setTimeout(function() {
+        hideLoading();
+    }, 3000);
 }
 function showPlaylists(playlists, trackUri) {
     $('#playlists').html('');
 
     function createPlaylistClickHandler(playlistId, trackUri) {
         return function(e) {
+            hidePlaylists();
+            showLoading("Adding...");
+
             $.get(ADD_SONG_ENDPOINT
-                + "?access_token=" + localStorage["accessToken"]
+                + "?access_token=" + localStorage["session"]
                 + "&playlist_id=" + playlistId
                 + "&track_uri=" + trackUri,
                 function (data) {
                     if (data.success == true) {
-                        alert('Success');
+                        showMessage("Success!");
                     } else {
-                        alert('Failure');
+                        showMessage("Failed to add song.");
                     }
                 });
         };
@@ -57,13 +69,20 @@ function showPlaylists(playlists, trackUri) {
         var playlist = playlists[index];
 
         var link = document.createElement('a');
+        link.className = 'playlist';
         link.href = '#';
         link.onclick = createPlaylistClickHandler(playlist.id, trackUri);
         link.innerText = playlist.name;
 
-        $('#playlists').appendChild(link)
-            .appendChild(document.createElement('br'));
+        $('#playlists').append(link)
+            .append(document.createElement('br'));
     }
+
+    hideLoading();
+    $('#playlists').show();
+}
+function hidePlaylists() {
+    $('#playlists').hide();
 }
 
 $('#add-to-spotify').click(function () {
@@ -76,36 +95,14 @@ $('#add-to-spotify').click(function () {
                 showLoading("Getting playlists...");
 
                 var trackUri = data.track.uri;
-                $.get(PLAYLISTS_ENDPOINT + "?access_token=" + localStorage["accessToken"], function (data) {
+                $.get(PLAYLISTS_ENDPOINT + "?access_token=" + localStorage["session"], function (data) {
                     if (data.success !== false && data.items) {
-                        var prompt_message = 'Playlists:\n';
-                        for (var index in data.items) {
-                            var playlist = data.items[index];
-                            prompt_message += (parseInt(index) + 1) + '. ' + playlist.name + '\n';
-                        }
-                        prompt_message += '\nType any number (1-' + data.items.length + '):';
-
-                        var choice = 0;
-                        while (choice < 1 || choice > data.items.length) {
-                            choice = parseInt(prompt(prompt_message, "1"))
-                        }
-
-                        var playlistId = data.items[choice - 1].id;
-
-                        $.get(ADD_SONG_ENDPOINT
-                            + "?access_token=" + localStorage["accessToken"]
-                            + "&playlist_id=" + playlistId
-                            + "&track_uri=" + trackUri,
-                            function (data) {
-                                if (data.success == true) {
-                                    alert('Success');
-                                } else {
-                                    alert('Failure');
-                                }
-                            });
+                        showPlaylists(data.items, trackUri);
                     } else {
-                        alert('Opening a login window. Please try again after going through the following process');
-                        window.open(LOGIN_ENDPOINT + "?access_token=" + localStorage["accessToken"]);
+                        showLoading('Please try again after you see a window open with your Spotify account on it');
+                        setTimeout(function() {
+                            window.open(LOGIN_ENDPOINT + "?access_token=" + localStorage["session"]);
+                        }, 2000);
                     }
                 });
             } else {
