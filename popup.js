@@ -106,7 +106,7 @@ $('#add-to-spotify').click(function () {
                     }
                 });
             } else {
-                alert('Couldn\'t find song');
+                showMessage("Couldn't find that song on Spotify :(");
             }
         });
 });
