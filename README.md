@@ -1,7 +1,7 @@
 Add to Spotify
 ==============
 
-Chrome extension that lets you add songs from any music player to your Spotify playlists.
+Chrome extension that lets you add songs from most popular music players to your Spotify playlists.
 
 Based on https://github.com/riffdigital/riff-scrobbler.
 
