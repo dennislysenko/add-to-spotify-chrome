@@ -92,7 +92,17 @@ $('#add-to-spotify').click(function () {
 
                         var playlistId = data.items[choice - 1].id;
 
-
+                        $.get(ADD_SONG_ENDPOINT
+                            + "?access_token=" + localStorage["accessToken"]
+                            + "&playlist_id=" + playlistId
+                            + "&track_uri=" + trackUri,
+                            function (data) {
+                                if (data.success == true) {
+                                    alert('Success');
+                                } else {
+                                    alert('Failure');
+                                }
+                            });
                     } else {
                         alert('Opening a login window. Please try again after going through the following process');
                         window.open(LOGIN_ENDPOINT + "?access_token=" + localStorage["accessToken"]);
