@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Add to Spotify</title>
+    <link href="extension.css" rel="stylesheet">
+</head>
+<body>
+<div class="form-container content-container">
+    <form action="" class="form" method="post">
+        <fieldset>
+            <div id="headerLoggedOut">
+                <h3 class="method-separator keynote-title">
+                    <div style="font-size: 150%">Add any song you hear in Chrome to Spotify.</div>
+                </h3>
+            </div>
+            <div id="headerLoggedIn">
+            </div>
+            <div class="error-box" id="con-error">
+                The code you entered was invalid.
+            </div>
+            <div id="whenLoggedOut">
+                <a class="signup-btn" id=
+                        "connect" style="margin-top: 10px;">Connect with Spotify</a>
+            </div>
+            <div id="whenLoggedIn">
+                <div style="text-align: center">
+                    <br />
+                    <span style="color: white; font-size: 120%" id="song-track"></span>
+                    <span style="font-size: 70%" id="song-artist"></span>
+                    <br />
+                    <br />
+                    <a class="signup-btn" id="add-to-spotify">Add to Spotify</a>
+                    <br />
+                    <br />
+                    <div id="loading_message"></div>
+                    <div id="playlists"></div>
+                    <br />
+                </div>
+            </div>
+        </fieldset>
+        <footer class="form-footer" style="display: none">
+            <div id="logout">
+                <a class="signup-btn logout" id="remove" style=
+                        "margin-top: 10px;">Logout</a>
+            </div>
+        </footer>
+    </form>
+</div>
+<script src="defines.js"></script>
+<script src="jquery-1.10.2.min.js"></script>
+<script src="notifications.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>

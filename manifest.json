@@ -1,0 +1,39 @@
+{
+  "background": {
+    "scripts": [
+      "defines.js",
+      "inject.js",
+      "jquery-1.10.2.min.js",
+      "scrobbler.js"
+    ]
+  },
+  "browser_action": {
+    "default_icon": "bar_icon.png",
+    "default_popup": "home.html"
+  },
+  "content_scripts": [
+    {
+      "js": ["connectors/dummy.js"],
+      "matches": ["\u003Call_urls>"]
+    }
+  ],
+  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+  "description": "Add songs from any music player to your Spotify playlists",
+  "icons": {
+    "128": "icon128.png"
+  },
+  "manifest_version": 2,
+  "name": "Add to Spotify",
+  "permissions": [
+    "tabs",
+    "notifications",
+    "https://ws.audioscrobbler.com/2.0/",
+    "https://gdata.youtube.com/feeds/api/videos/",
+    "http://*/",
+    "https://*/",
+    "storage"
+  ],
+  "update_url": "https://clients2.google.com/service/update2/crx",
+  "version": "0.1.0",
+  "web_accessible_resources": ["icon128.png"]
+}
