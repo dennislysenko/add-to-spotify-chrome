@@ -2,8 +2,8 @@
  * Created by dennis on 1/9/15.
  */
 
-var DI_WATCH_ELEMENT = "#now-playing > div.info-container > div.title-container"; // anything less deep changes every 1sec
-var DI_TITLE_ELEMENT = "#now-playing > div.info-container > div.title-container > div.title";
+var DI_WATCH_ELEMENT = "#webplayer-region > div > section.track-region.col > div > div.metadata-container > div.track-title"; // anything less deep changes every 1sec
+var DI_TITLE_ELEMENT = "#webplayer-region > div > section.track-region.col > div > div.metadata-container > div.track-title > div > a";
 var DI_TIMEOUT_LENGTH = 700;
 var DI_TIMEOUT = null;
 
@@ -33,7 +33,7 @@ $(function () {
     $(DI_WATCH_ELEMENT).live('DOMSubtreeModified', function (e) {
         console.log("Update triggered");
 
-        var full_title = $(DI_TITLE_ELEMENT).text();
+        var full_title = $(DI_TITLE_ELEMENT).text().trim();
         var artist, title;
         if (full_title) {
             var split = full_title.split(" - ");
